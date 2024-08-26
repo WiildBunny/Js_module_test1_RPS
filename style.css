@@ -1,0 +1,531 @@
+:root {
+  --score-text-color: #656565;
+  --score-no-color: #252525;
+  --bg-color: #89c15e;
+  --outline-rock: #0074b6;
+  --outline-scissors: #bd00ff;
+  --outline-paper: #ffa943;
+  --inner-green: #0fa71e;
+  --mid-green: #1da82bc9;
+  --outer-green: #2e9a2563;
+  --box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* ------------------------- */
+/* GENERAL COMPONENTS  */
+/* ------------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", system-ui;
+  text-transform: uppercase;
+  background-color: var(--bg-color);
+  color: #fff;
+  overflow: hidden;
+}
+
+main {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 2rem;
+
+  position: relative;
+}
+
+.container {
+  max-width: 50rem;
+  height: calc(85vh - 22vh - 4rem);
+  padding: 2rem;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* HEADER SECTION */
+
+.header {
+  margin-top: 2rem;
+  border: 2px solid #fff;
+  height: 23vh;
+  padding: 1rem;
+  border-radius: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .heading {
+  font-size: 2.4rem;
+  line-height: 1;
+  letter-spacing: 0.2rem;
+}
+
+.display-score {
+  display: flex;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.score {
+  background-color: #fff;
+  width: 8rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 1rem;
+}
+
+.score-title {
+  color: var(--score-text-color);
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: 1.6px;
+}
+
+.score-com,
+.score-player {
+  color: var(--score-no-color);
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+/* GAME SECTION */
+
+.game {
+  grid-template-areas:
+    "rock scissors"
+    "paper paper";
+}
+
+.choice {
+  width: 8rem;
+  height: 8rem;
+  display: grid;
+  place-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+
+  cursor: pointer;
+  box-shadow: inset 0 0.2rem 4px rgba(0, 0, 0, 0.15), var(--box-shadow);
+}
+
+.choice img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.rock {
+  grid-area: rock;
+  border: 1rem solid var(--outline-rock);
+  position: relative;
+}
+
+.scissors {
+  position: relative;
+  grid-area: scissors;
+  border: 1rem solid var(--outline-scissors);
+}
+
+.paper {
+  position: relative;
+  grid-area: paper;
+  border: 1rem solid var(--outline-paper);
+}
+
+/* STROKE */
+
+.stroke {
+  position: absolute;
+  width: 24rem;
+  height: 1rem;
+  background-color: #000000a3;
+  z-index: -1;
+}
+
+.stroke-rock {
+  top: 50%;
+  left: 50%;
+}
+
+.stroke-scissors {
+  transform: rotate(-45deg);
+  width: 18rem;
+  top: 140%;
+  right: -25%;
+}
+
+.stroke-paper {
+  transform: rotate(45deg);
+  width: 18rem;
+  top: 140%;
+  left: -25%;
+}
+
+/* RESULT */
+.result {
+  max-width: 70rem;
+  grid-template-areas:
+    "you-title pc-title"
+    "you-picked pc-picked";
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.picked {
+  min-width: 8rem;
+  min-height: 8rem;
+  border-radius: 50%;
+  background-color: #b7ff8084;
+  transform: scale(1.2);
+  z-index: -1;
+}
+
+.title:first-of-type {
+  grid-area: you-title;
+}
+
+.title:last-of-type {
+  grid-area: pc-title;
+}
+
+.picked:first-of-type {
+  grid-area: you-picked;
+}
+
+.picked:last-of-type {
+  grid-area: pc-picked;
+}
+
+.result.show-winner {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    "you-title . pc-title"
+    "you-picked result-winner pc-picked";
+}
+
+.result-winner {
+  grid-area: result-winner;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.result-winner .result-title {
+  letter-spacing: 2px;
+  line-height: 0.6;
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+}
+
+.result-winner .result-title span {
+  font-size: 1.2rem;
+}
+
+.winner {
+  box-shadow: 0 0 0 20px var(--inner-green), 0 0 0 40px var(--mid-green),
+    0 0 0 60px var(--outer-green);
+  animation: winner 1s ease forwards;
+}
+
+.play-again {
+  background-color: white;
+  outline: none;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  margin: 0 auto;
+  color: #6b6b6b;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+/* FOOTER */
+.footer {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  padding: 1rem 2rem;
+  height: 10vh;
+  gap: 1rem;
+}
+
+.btn-rules,
+.btn-next {
+  position: relative;
+  outline: none;
+  background: none;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-family: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+/* RULES */
+
+.rules-modal {
+  width: 16rem;
+  position: absolute;
+  bottom: 6rem;
+  background-color: #004429;
+  border: 3px solid #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.modal-heading {
+  position: relative;
+  text-transform: none;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.btn-close {
+  width: 3rem;
+  height: 3rem;
+
+  position: absolute;
+  top: -10%;
+  right: -8%;
+
+  background-color: red;
+
+  border: 3px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  list-style: square;
+  font-size: 0.8rem;
+  text-transform: none;
+}
+
+.rules li::marker {
+  color: #ffd600;
+}
+
+.show-modal {
+  opacity: 1;
+  pointer-events: initial;
+}
+
+.hurry-screen {
+  width: 100%;
+  height: 88vh;
+  line-height: 1;
+  padding: 2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--bg-color);
+  z-index: 1;
+  padding-top: 6rem;
+}
+
+.trophy-container {
+  position: relative;
+  width: 100%;
+  height: 20rem;
+  margin-bottom: 2rem;
+}
+
+.trophy-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.trophy {
+  z-index: 2;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  animation: star linear 1s infinite;
+}
+
+@keyframes star {
+  0% {
+    transform: scale(0);
+  }
+  25% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(0.75);
+  }
+  75% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.5);
+  }
+}
+
+.hurry-text {
+  animation: popup ease-in-out 1s;
+}
+
+@keyframes popup {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hurray {
+  font-size: 8rem;
+  letter-spacing: 2px;
+}
+
+.msg {
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-bottom: 4rem;
+}
+
+/* Utities */
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 62.5%;
+  }
+
+  .game {
+    padding: 4rem 0;
+  }
+
+  .paper {
+    align-self: start;
+  }
+
+  .stroke-rock {
+    width: 16rem;
+    top: 50%;
+    left: 50%;
+  }
+
+  .stroke-scissors {
+    transform: rotate(-65deg);
+    width: 18rem;
+    top: 140%;
+    right: -25%;
+  }
+
+  .stroke-paper {
+    transform: rotate(65deg);
+    width: 18rem;
+    top: 140%;
+    left: -25%;
+  }
+}
+.confetti {
+  position: absolute;
+  top: 0; /* Start at the top of the page */
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  background-color: #ffcc00; /* Example color, change to suit */
+  opacity: 0;
+  animation: fall linear 4s forwards;
+}
+
+@keyframes fall {
+  0% {
+    opacity: 1;
+    transform: translateY(-50px) rotate(0deg); /* Start slightly above the top */
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(720deg); /* Fall to the bottom */
+  }
+}
+
+/* Example: create multiple confetti pieces */
+.confetti .confetti-piece:nth-child(1) {
+  left: 10%;
+  animation-delay: 0.2s;
+}
+
+.confetti .confetti-piece:nth-child(2) {
+  left: 30%;
+  animation-delay: 0.5s;
+}
+
+.confetti .confetti-piece:nth-child(3) {
+  left: 50%;
+  animation-delay: 0.8s;
+}
+
+.confetti .confetti-piece:nth-child(4) {
+  left: 70%;
+  animation-delay: 1s;
+}
+
+.confetti .confetti-piece:nth-child(5) {
+  left: 90%;
+  animation-delay: 1.3s;
+}
